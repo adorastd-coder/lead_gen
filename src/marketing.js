@@ -34,12 +34,9 @@ class MarketingAutomation {
         try {
             const prompt = this.buildMarketingPrompt(lead);
             const profile = getProfile();
-            const language = profile.preferences.language || 'indonesian';
-            
-            const systemContent = language === 'indonesian'
-                ? "Anda adalah ahli pemasaran profesional yang berspesialisasi dalam penawaran bisnis. Buat konten pemasaran yang dipersonalisasi, menarik, dan berfokus pada konversi."
-                : "You are a professional marketing expert specializing in business outreach. Create personalized, engaging, and conversion-focused marketing content.";
-            
+            const language = profile.preferences.language || 'english';
+
+const systemContent = "You are a professional marketing expert specializing in business outreach for dental clinics and private schools. Create personalized, engaging, and conversion-focused marketing content.";
             const completion = await this.openai.chat.completions.create({
                 model: getModel(),
                 messages: [
@@ -172,10 +169,7 @@ Generate the marketing content:`;
         }
 
         const profile = getProfile();
-        const defaultSubject = profile.preferences.language === 'indonesian'
-            ? 'Solusi Digital untuk Bisnis Anda'
-            : 'Digital Solutions for Your Business';
-
+        const defaultSubject = 'More Patients with Digital Marketing - Vrixo';
         return {
             subject: subject || defaultSubject,
             email: email || 'Email content not generated',
@@ -209,13 +203,13 @@ Generate the marketing content:`;
                 const personalizedContent = this.personalizeTemplate(baseTemplate, lead);
                 
                 marketingData.push({
-                    namaBisnis: lead.name,
-                    nomorHP: lead.phone || '',
-                    subyek: personalizedContent.subject,
-                    tipeBisnis: biz.type || 'general',
-                    kontenEmail: personalizedContent.email,
-                    kontenWhatsapp: personalizedContent.whatsapp
-                });
+    businessName: lead.name,
+    phone: lead.phone || '',
+    subject: personalizedContent.subject,
+    businessType: biz.type || 'general',
+    emailContent: personalizedContent.email,
+    whatsappContent: personalizedContent.whatsapp
+});
                 
             } catch (error) {
                 console.error(`Error personalizing content for ${lead.name}:`, error);
@@ -234,12 +228,7 @@ Generate the marketing content:`;
         try {
             const prompt = this.buildBaseTemplatePrompt(marketingContent, callToAction);
             const profile = getProfile();
-            const language = profile.preferences.language || 'indonesian';
-            
-            const systemContent = language === 'indonesian'
-                ? "Anda adalah ahli pemasaran profesional yang berspesialisasi dalam penawaran bisnis. Buat template pemasaran yang menarik dan berfokus pada konversi."
-                : "You are a professional marketing expert specializing in business outreach. Create engaging and conversion-focused marketing templates.";
-
+            const systemContent = "You are a professional marketing expert specializing in business outreach for dental clinics and private schools. Create engaging and conversion-focused marketing templates.";
             const completion = await this.openai.chat.completions.create({
                 model: getModel(),
                 messages: [
@@ -375,14 +364,14 @@ Generate the base marketing template:`;
                 const content = await this.generateAIMarketingContent(lead);
                 
                 if (content) {
-                    marketingData.push({
-                        namaBisnis: lead.name,
-                        nomorHP: lead.phone || '',
-                        subyek: content.subject,
-                        tipeBisnis: biz.type || 'general',
-                        kontenEmail: content.email,
-                        kontenWhatsapp: content.whatsapp
-                    });
+                   marketingData.push({
+    businessName: lead.name,
+    phone: lead.phone || '',
+    subject: content.subject,
+    businessType: biz.type || 'general',
+    emailContent: content.email,
+    whatsappContent: content.whatsapp
+});
                 }
                 
                 // Delay to avoid rate limiting
@@ -407,10 +396,9 @@ Generate the base marketing template:`;
         }
 
         // Save as CSV
-        const csvHeader = "Nama Bisnis,Nomor HP,Subyek,Tipe Bisnis,Konten Email,Konten Whatsapp\n";
-        const csvRows = marketingData
+const csvHeader = "Business Name,Phone,Subject,Business Type,Email Content,WhatsApp Content\n";        const csvRows = marketingData
             .map(item => 
-                `"${item.namaBisnis}","${item.nomorHP}","${item.subyek}","${item.tipeBisnis}","${item.kontenEmail.replace(/"/g, '""')}","${item.kontenWhatsapp.replace(/"/g, '""')}"`
+                `"${item.businessName}","${item.phone}","${item.subject}","${item.businessType}","${item.emailContent.replace(/"/g, '""')}","${item.whatsappContent.replace(/"/g, '""')}"`
             )
             .join("\n");
 
