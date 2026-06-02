@@ -13,25 +13,37 @@ class LeadIntelligence {
 
     _getDefaultIndustryScores() {
         return {
-            restaurant: { potential: 85, digitalReadiness: 75, urgency: 90 },
-            automotive: { potential: 90, digitalReadiness: 70, urgency: 85 },
-            retail: { potential: 95, digitalReadiness: 80, urgency: 95 },
-            professional: { potential: 80, digitalReadiness: 85, urgency: 75 },
-            healthcare: { potential: 85, digitalReadiness: 65, urgency: 80 },
-            education: { potential: 75, digitalReadiness: 70, urgency: 85 },
-            realestate: { potential: 90, digitalReadiness: 75, urgency: 80 }
-        };
+    'dentist': { potential: 90, digitalReadiness: 70, urgency: 85 },
+    'orthodontist': { potential: 92, digitalReadiness: 72, urgency: 88 },
+    'cosmetic dentist': { potential: 95, digitalReadiness: 75, urgency: 90 },
+    'dental implants': { potential: 95, digitalReadiness: 70, urgency: 92 },
+    'pediatric dentist': { potential: 88, digitalReadiness: 68, urgency: 85 },
+    'emergency dentist': { potential: 85, digitalReadiness: 65, urgency: 95 },
+    'private school': { potential: 80, digitalReadiness: 72, urgency: 78 }
+};
     }
 
     _getDefaultLocationScores() {
         return {
-            jakarta: { economy: 95, digital: 90, competition: 85 },
-            bandung: { economy: 80, digital: 75, competition: 70 },
-            surabaya: { economy: 85, digital: 80, competition: 75 },
-            medan: { economy: 75, digital: 70, competition: 65 },
-            yogyakarta: { economy: 70, digital: 75, competition: 60 },
-            default: { economy: 65, digital: 60, competition: 55 }
-        };
+    // USA
+    'new york': { economy: 98, digital: 95, competition: 90 },
+    'los angeles': { economy: 96, digital: 93, competition: 88 },
+    'houston': { economy: 90, digital: 85, competition: 80 },
+    'chicago': { economy: 92, digital: 88, competition: 85 },
+    // Canada
+    'toronto': { economy: 90, digital: 88, competition: 82 },
+    'vancouver': { economy: 88, digital: 86, competition: 80 },
+    // Australia
+    'sydney': { economy: 90, digital: 87, competition: 82 },
+    'melbourne': { economy: 88, digital: 85, competition: 80 },
+    // UK
+    'london': { economy: 95, digital: 92, competition: 88 },
+    'manchester': { economy: 82, digital: 80, competition: 75 },
+    // UAE
+    'dubai': { economy: 95, digital: 90, competition: 78 },
+    'abu dhabi': { economy: 90, digital: 85, competition: 72 },
+    default: { economy: 72, digital: 70, competition: 65 }
+};
     }
 
     async scoreLeads(leads, industry = 'professional') {
@@ -129,9 +141,10 @@ class LeadIntelligence {
         // Address quality (more specific = better)
         if (lead.address) {
             const address = lead.address.toLowerCase();
-            if (address.includes('jl.') || address.includes('jalan')) score += 5;
-            if (address.includes('jakarta') || address.includes('bandung') || address.includes('surabaya')) score += 5;
-            if (address.includes('mall') || address.includes('plaza') || address.includes('tower')) score += 10;
+           if (address.includes('street') || address.includes('ave') || 
+    address.includes('blvd') || address.includes('rd')) score += 5;
+if (address.includes('suite') || address.includes('floor') || 
+    address.includes('clinic') || address.includes('centre')) score += 10;
         }
 
         return Math.min(Math.max(score, 0), 100);
@@ -145,7 +158,7 @@ class LeadIntelligence {
             const website = lead.website.toLowerCase();
             
             // Domain quality
-            if (website.includes('.com') || website.includes('.co.id')) score += 10;
+            if (website.includes('.com') || website.includes('.co.uk') || website.includes('.com.au')) score += 10;
             if (website.includes('instagram') || website.includes('facebook')) score += 5;
             else if (website.includes('http')) score += 15; // Proper website
         }
@@ -166,22 +179,15 @@ class LeadIntelligence {
     scoreLocation(lead) {
         if (!lead.address) return 50;
         
-        const address = lead.address.toLowerCase();
-        
-        // Jakarta and suburbs
-        if (address.includes('jakarta') || address.includes('depok') || 
-            address.includes('tangerang') || address.includes('bekasi')) {
-            return this.locationScores.jakarta.economy;
-        }
-        
-        // Major cities
-        if (address.includes('bandung')) return this.locationScores.bandung.economy;
-        if (address.includes('surabaya')) return this.locationScores.surabaya.economy;
-        if (address.includes('medan')) return this.locationScores.medan.economy;
-        if (address.includes('yogyakarta') || address.includes('jogja')) return this.locationScores.yogyakarta.economy;
-        
-        // Default for other locations
-        return this.locationScores.default.economy;
+       const address = lead.address.toLowerCase();
+
+for (const city of Object.keys(this.locationScores)) {
+    if (city !== 'default' && address.includes(city)) {
+        return this.locationScores[city].economy;
+    }
+}
+
+return this.locationScores.default.economy;
     }
 
     scoreIndustryPotential(industry) {
@@ -199,7 +205,7 @@ class LeadIntelligence {
         if (lead.phone) {
             score += 50;
             // Indonesian mobile numbers are more contactable
-            if (lead.phone.includes('08') || lead.phone.includes('+62')) score += 20;
+            if (lead.phone.includes('+1') || lead.phone.includes('+44') ||      lead.phone.includes('+61') || lead.phone.includes('+971')) score += 20;
         }
         
         if (lead.email) score += 20;
