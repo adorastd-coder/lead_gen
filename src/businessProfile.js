@@ -24,14 +24,27 @@ let cachedProfile = null;
 function getDefaults() {
     return {
         business: {
-            name: '',
-            type: '',
+            name: 'Vrixo',
+            type: 'Digital Marketing Agency',
             phone: '',
             email: '',
-            website: '',
-            description: '',
-            valuePropositions: [],
-            targetIndustries: []
+            website: 'vrixo.online',
+            description:'Vrixo is a digital marketing agency helping dental clinics and private schools in the USA, Canada, Australia, UK, and UAE get more clients through SEO, Google Ads, Meta Ads, and professional websites.',
+            primaryMarket: [
+                          "USA",
+                          "Canada",
+                          "Australia",
+                          "UK",
+                          "UAE"
+                            ],
+            valuePropositions: ["More patient bookings through Google Ads and SEO",
+                                  "High-converting websites starting at $400",
+                                  "Local SEO that gets clinics to page 1",
+                                      "Meta Ads that generate qualified patient leads",
+                                          "Full digital marketing packages for dental clinics"],
+            targetIndustries: ["dentist", "orthodontist", "cosmetic dentist",
+  "dental implants", "pediatric dentist", "emergency dentist",
+  "private school", "educational institution"]
         },
         owner: {
             name: '',
@@ -39,7 +52,7 @@ function getDefaults() {
             email: ''
         },
         preferences: {
-            language: 'indonesian',
+            language: 'english',
             campaignStyle: 'balanced',
             defaultSearchQuery: '',
             defaultLocation: '',
@@ -199,7 +212,7 @@ function getBusinessInfoForPrompt() {
         description: p.business.description || '',
         valuePropositions: p.business.valuePropositions || [],
         targetIndustries: p.business.targetIndustries || [],
-        language: p.preferences.language || 'indonesian',
+        language: p.preferences.language || 'english',
         campaignStyle: p.preferences.campaignStyle || 'balanced'
     };
 }
