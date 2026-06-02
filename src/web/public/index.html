@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#0f1117" />
     <meta
       name="description"
-      content="AI-powered business lead generation dashboard"
+      content="Vrixo — AI-powered dental and education lead generation for digital marketing agencies"
     />
-    <title>Business Leads AI Dashboard</title>
+    <title>Vrixo — Lead Generation Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -61,8 +61,8 @@
                 <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
               </svg>
             </div>
-            <h1>Business Leads AI</h1>
-            <span class="version">v2.0</span>
+            <h1>Vrixo</h1>
+            <span class="version">Lead Gen</span>
           </div>
         </div>
         <div class="header-actions">
@@ -555,16 +555,20 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="campaignIndustry">Industry</label>
+                <label for="campaignIndustry">Niche</label>
                 <select id="campaignIndustry" name="industry" required>
-                  <option value="">Select Industry</option>
-                  <option value="dentist">Dentist</option>
-                  <option value="orthodontist">Orthodontist</option>
-                  <option value="cosmetic dentist">Cosmetic Dentist</option>
-                  <option value="dental implants">Dental Implants</option>
-                  <option value="pediatric dentist">Pediatric Dentist</option>
-                  <option value="emergency dentist">Emergency Dentist</option>
-                  <option value="private school">Private School</option>
+                  <option value="">Select Niche</option>
+                  <optgroup label="Dental (Primary)">
+                    <option value="dentist">General Dentist</option>
+                    <option value="orthodontist">Orthodontist</option>
+                    <option value="cosmetic dentist">Cosmetic Dentist</option>
+                    <option value="dental implants">Dental Implants</option>
+                    <option value="pediatric dentist">Pediatric Dentist</option>
+                    <option value="emergency dentist">Emergency Dentist</option>
+                  </optgroup>
+                  <optgroup label="Education (Secondary)">
+                    <option value="private school">Private School</option>
+                  </optgroup>
                 </select>
               </div>
               <div class="form-group">
@@ -573,7 +577,7 @@
                   type="text"
                   id="campaignLocation"
                   name="location"
-                  placeholder="e.g., Houston, TX"
+                  placeholder="e.g., Houston TX / Dubai UAE"
                   required
                 />
               </div>
@@ -589,12 +593,12 @@
               />
             </div>
             <div class="form-group">
-              <label for="campaignService">Your Service Description</label>
+              <label for="campaignService">Vrixo Service to Pitch</label>
               <input
                 type="text"
                 id="campaignService"
                 name="yourService"
-                placeholder="e.g., Website development & digital marketing"
+                placeholder="e.g., Google Ads + SEO package starting at $400/month"
                 required
               />
             </div>
@@ -611,19 +615,13 @@
                 />
               </div>
               <div class="form-group">
-                <label for="campaignStyle">Content Style</label>
+                <label for="campaignStyle">Outreach Style</label>
                 <select id="campaignStyle" name="contentStyle">
-                  <option value="conservative">Conservative</option>
-                  <option value="balanced" selected>Balanced</option>
-                  <option value="aggressive">Aggressive</option>
+                  <option value="conservative">Conservative — trust-first</option>
+                  <option value="balanced" selected>Balanced — recommended</option>
+                  <option value="aggressive">Aggressive — urgency-heavy</option>
                 </select>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="campaignLanguage">Language</label>
-              <select id="campaignLanguage" name="language">
-                <option value="english" selected>English</option>
-              </select>
             </div>
             <div class="form-actions">
               <button
@@ -709,7 +707,7 @@
                 d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"
               />
             </svg>
-            <span id="progressCampaignName">Campaign Progress</span>
+            <span id="progressCampaignName">Campaign Running...</span>
           </h3>
           <button class="modal-close" onclick="hideModal()">&times;</button>
         </div>
@@ -756,7 +754,7 @@
               />
               <circle cx="12" cy="13" r="3" />
             </svg>
-            Marketing Content
+            Vrixo Outreach Content
           </h3>
           <button class="modal-close" onclick="hideModal()">&times;</button>
         </div>
