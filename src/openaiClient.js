@@ -6,7 +6,7 @@
  */
 require('dotenv').config();
 
-const DEFAULT_MODEL = 'gpt-4o-mini';
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 
 let openaiInstance = null;
 let initError = null;
@@ -35,7 +35,7 @@ function createClient() {
         console.error('❌ Error initializing OpenAI client:', error.message);
         console.log('💡 Make sure to install: npm install openai');
         console.log('💡 Set OPENAI_API_KEY in your .env file');
-        return null;
+        console.error('❌ AI outreach will not work until this is resolved.'); return null;
     }
 }
 
