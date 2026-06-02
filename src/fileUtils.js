@@ -90,18 +90,11 @@ class FileUtils {
 
   static formatPhoneNumber(phone) {
     if (!phone) return null;
-    
-    // Clean dan format nomor Indonesia
     let cleaned = phone.replace(/\D/g, '');
-    
-    if (cleaned.startsWith('62')) {
-      return cleaned;
-    } else if (cleaned.startsWith('0')) {
-      return '62' + cleaned.substring(1);
-    }
-    
+    // Return as-is if already has country code (10+ digits)
+    if (cleaned.length >= 10) return cleaned;
     return null;
-  }
+}
 }
 
 module.exports = FileUtils; 
