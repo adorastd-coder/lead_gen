@@ -14,7 +14,7 @@ function parseArguments() {
     generateMarketing: false,
     marketingContent: "",
     callToAction: "",
-    language: profile.preferences.language || 'indonesian'
+    language: profile.preferences.language || 'english'
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -42,7 +42,7 @@ function parseArguments() {
         break;
       case '-L':
       case '--language':
-        options.language = args[i + 1] || 'indonesian';
+        options.language = args[i + 1] || 'english';
         i++;
         break;
       case '-h':
@@ -60,13 +60,13 @@ Options:
   -l, --length <number>    Number of results to scrape (default: 20, max: 100)
   -m, --marketing <text>   Marketing content + Generate AI marketing templates
   -c, --cta <text>         Call to action (required if -m is used)
-  -L, --language <lang>    Output language: indonesian / english (default: ${options.language})
+  -L, --language <lang>    Output language: english / arabic / french (default: ${options.language})
   -h, --help               Show this help message
 
 Examples:
-  node index.js -q "Restaurant Jakarta" -l 50
-  node index.js -q "Rental Mobil Jakarta" -l 10 -m "Your marketing content here" -c "Schedule a Free Demo"
-  node index.js -q "Klinik Bandung" -l 20 -L english
+  node index.js -q "dentist near Houston TX" -l 50
+  node index.js -q "orthodontist near Toronto" -l 10 -m "Vrixo helps dental clinics get more patients" -c "Book a Free Strategy Call"
+  node index.js -q "private school near Dubai" -l 20 -L english
         `);
         process.exit(0);
         break;
