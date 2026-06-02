@@ -52,10 +52,10 @@ class CampaignBuilder {
         console.log('📋 Step 1: Campaign Type');
         console.log('─'.repeat(50));
         console.log('What type of campaign do you want to create?');
-        console.log('1. 🎯 Lead Generation (find new prospects)');
-        console.log('2. 🔍 Market Research (analyze competitors)');
-        console.log('3. 📊 Competitor Analysis (study market)');
-        console.log('4. 🔄 Follow-up Campaign (existing leads)');
+       console.log('1. 🎯 Lead Generation (find new prospects)');
+console.log('2. 🔍 Market Research (analyze competitors)');
+console.log('3. 📊 Competitor Analysis (study market)');
+console.log('4. 🔄 Follow-up Campaign (existing leads)');
         
         const choice = await this.question('\nSelect campaign type (1-4): ');
         
@@ -80,35 +80,36 @@ class CampaignBuilder {
             console.log(`🏢 Using your configured industry: ${this.campaign.industry}`);
         } else {
             console.log('Select target industry:');
-            console.log('1. 🍽️  Restaurant & Food Service');
-            console.log('2. 🚗 Automotive (Rental, Workshop)');
-            console.log('3. 🛍️  Retail & E-commerce');
-            console.log('4. 💼 Professional Services');
-            console.log('5. 🏥 Healthcare');
-            console.log('6. 🎓 Education');
-            console.log('7. 🏠 Real Estate');
+            console.log('1. 🦷 Dentist / General Dental');
+console.log('2. 😁 Orthodontist');
+console.log('3. ✨ Cosmetic Dentist');
+console.log('4. 🦷 Dental Implant Clinic');
+console.log('5. 👶 Pediatric Dentist');
+console.log('6. 🚨 Emergency Dentist');
+console.log('7. 🎓 Private School / Education');
             
             const choice = await this.question('\nSelect industry (1-7): ');
             const industries = {
-                '1': 'restaurant', '2': 'automotive', '3': 'retail',
-                '4': 'professional', '5': 'healthcare', '6': 'education', '7': 'realestate'
+                '1': 'dentist', '2': 'orthodontist', '3': 'cosmetic dentist',
+                    '4': 'dental implants', '5': 'pediatric dentist',
+                        '6': 'emergency dentist', '7': 'private school'
             };
             this.campaign.industry = industries[choice] || 'professional';
         }
 
         // Location targeting
-        const defaultLoc = this.profile.preferences.defaultLocation || 'Jakarta';
+        const defaultLoc = this.profile.preferences.defaultLocation || 'New York, USA';
         this.campaign.location = await this.question(`🗺️  Target location (e.g., ${defaultLoc}): `) || defaultLoc;
         
         // Search query
         const defaultQueries = {
-            restaurant: `Restaurant ${this.campaign.location}`,
-            automotive: `Rental mobil ${this.campaign.location}`,
-            retail: `Toko ${this.campaign.location}`,
-            professional: `Konsultan ${this.campaign.location}`,
-            healthcare: `Klinik ${this.campaign.location}`,
-            education: `Kursus ${this.campaign.location}`,
-            realestate: `Property ${this.campaign.location}`
+            'dentist': `dentist near ${this.campaign.location}`,
+    'orthodontist': `orthodontist near ${this.campaign.location}`,
+    'cosmetic dentist': `cosmetic dentist near ${this.campaign.location}`,
+    'dental implants': `dental implants clinic near ${this.campaign.location}`,
+    'pediatric dentist': `pediatric dentist near ${this.campaign.location}`,
+    'emergency dentist': `emergency dentist near ${this.campaign.location}`,
+    'private school': `private school near ${this.campaign.location}`
         };
         
         const defaultQuery = defaultQueries[this.campaign.industry];
@@ -349,8 +350,8 @@ class CampaignBuilder {
         }
         
         // Generate standard content for medium-priority leads
-        for (const lead of mediumPriorityLeads.slice(0, 10)) { // Limit to avoid API costs
-            try {
+for (const lead of mediumPriorityLeads.slice(0, 20)) { // Groq is free-tier friendly
+    try {
                 const content = await marketingAI.generateIndustrySpecificContent(
                     lead, 
                     this.campaign.industry, 
@@ -467,32 +468,18 @@ class CampaignBuilder {
     }
 
     getIndustrySpecificCTA() {
-        const language = this.profile.preferences.language || 'indonesian';
-        
-        const ctas = language === 'indonesian' ? {
-            restaurant: "Tingkatkan pesanan online dan customer retention dengan sistem digital terintegrasi",
-            automotive: "Otomatisasi booking dan manajemen armada untuk efisiensi maksimal",
-            retail: "Boost penjualan online dengan e-commerce dan digital marketing strategy",
-            professional: "Digitalisasi layanan profesional untuk jangkauan klien yang lebih luas",
-            healthcare: "Sistem appointment online dan manajemen pasien yang lebih efisien",
-            education: "Platform pembelajaran online dan manajemen siswa modern",
-            realestate: "Digital marketing dan CRM khusus property untuk closing lebih cepat"
-        } : {
-            restaurant: "Increase online orders and customer retention with integrated digital systems",
-            automotive: "Automate bookings and fleet management for maximum efficiency",
-            retail: "Boost online sales with e-commerce and digital marketing strategy",
-            professional: "Digitalize professional services to reach a wider client base",
-            healthcare: "Online appointment system and more efficient patient management",
-            education: "Online learning platform and modern student management",
-            realestate: "Digital marketing and property-specific CRM for faster closings"
-        };
-        
-        const defaultCTA = language === 'indonesian'
-            ? "Tingkatkan bisnis dengan solusi digital terintegrasi"
-            : "Grow your business with integrated digital solutions";
-        
-        return ctas[this.campaign.industry] || defaultCTA;
-    }
+    const ctas = {
+        'dentist': "Get more patient bookings with Google Ads and local SEO built for dental clinics",
+        'orthodontist': "Fill your consultation calendar with targeted Meta Ads for orthodontic practices",
+        'cosmetic dentist': "Attract high-value cosmetic patients with a premium website and Google Ads",
+        'dental implants': "Generate qualified implant leads with paid ads starting at $400/month",
+        'pediatric dentist': "Reach local parents actively searching for pediatric dental care",
+        'emergency dentist': "Dominate emergency dental searches with Google Ads and local SEO",
+        'private school': "Increase enrollment inquiries with targeted digital marketing for schools"
+    };
+
+   return ctas[this.campaign.industry] || "Grow your business with integrated digital solutions";
+}
 
     showProgress(task, percentage) {
         const width = 30;
