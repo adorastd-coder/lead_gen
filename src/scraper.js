@@ -94,7 +94,7 @@ class BusinessScraper {
               const allSpans = businessCard.querySelectorAll('span');
               for (const span of allSpans) {
                 const text = span.textContent.trim();
-                if (text.includes('Jl.') || text.includes('Street') || text.includes('Road') || text.includes('No.')) {
+                if (text.includes('Street') || text.includes('Road') || text.includes('Ave') ||      text.includes('Blvd') || text.includes('Dr') || text.includes('St,') ||      text.includes('Suite') || text.includes('Rd') || text.includes('Lane') ||     text.match(/\d{1,5}\s+\w/) ) {
                   // Remove "· " prefix if present
                   address = text.replace(/^[·•]\s*/, '');
                   break;
@@ -105,7 +105,7 @@ class BusinessScraper {
               let phone = '';
               for (const span of allSpans) {
                 const text = span.textContent.trim();
-                if (text.match(/\d{3,}/) && (text.includes('+62') || text.includes('08') || text.includes('-'))) {
+                if (text.match(/[\+\(]?\d[\d\s\-\(\)]{7,}\d/)) {
                   phone = text;
                   break;
                 }
@@ -135,8 +135,8 @@ class BusinessScraper {
                 if (href && 
                     !href.includes('google.com/maps') && 
                     !href.includes('maps.google.com') &&
-                    (href.includes('.com') || href.includes('.co.id') || href.includes('.id')) &&
-                    (text.includes('Situs Web') || text.includes('Website') || text.includes('www'))) {
+                    (href.includes('.com') || href.includes('.co.uk') || href.includes('.com.au') ||   href.includes('.ca') || href.includes('.ae') || href.includes('.org') || href.includes('.net')) &&
+                    (text.includes('Website') || text.includes('www') || text.includes('Visit') || text.toLowerCase().includes('web'))) {
                   website = href;
                 }
               }
@@ -174,7 +174,7 @@ class BusinessScraper {
             const allSpans = card.querySelectorAll('span');
             for (const span of allSpans) {
               const text = span.textContent.trim();
-              if (text.includes('Jl.') || text.includes('Street') || text.includes('Road') || text.includes('No.')) {
+              if (text.includes('Street') || text.includes('Road') || text.includes('Ave') ||      text.includes('Blvd') || text.includes('Dr') || text.includes('St,') ||      text.includes('Suite') || text.includes('Rd') || text.includes('Lane') ||     text.match(/\d{1,5}\s+\w/)) {
                 // Remove "· " prefix if present
                 address = text.replace(/^[·•]\s*/, '');
                 break;
@@ -185,7 +185,7 @@ class BusinessScraper {
             let phone = '';
             for (const span of allSpans) {
               const text = span.textContent.trim();
-              if (text.match(/\d{3,}/) && (text.includes('+62') || text.includes('08') || text.includes('-'))) {
+              if (text.match(/[\+\(]?\d[\d\s\-\(\)]{7,}\d/)) {
                 phone = text;
                 break;
               }
@@ -215,8 +215,8 @@ class BusinessScraper {
               if (href && 
                   !href.includes('google.com/maps') && 
                   !href.includes('maps.google.com') &&
-                  (href.includes('.com') || href.includes('.co.id') || href.includes('.id')) &&
-                  (text.includes('Situs Web') || text.includes('Website') || text.includes('www'))) {
+                  (href.includes('.com') || href.includes('.co.uk') || href.includes('.com.au') ||   href.includes('.ca') || href.includes('.ae') || href.includes('.org') || href.includes('.net')) &&
+                  (text.includes('Website') || text.includes('www') || text.includes('Visit') || text.toLowerCase().includes('web'))) {
                 website = href;
               }
             }
@@ -333,16 +333,16 @@ class BusinessScraper {
     }
   }
 
-  async scrapeYellowPages(searchQuery, location = "Jakarta") {
+  async scrapeYellowPages(searchQuery, location = "New York") {
     if (!this.browser) await this.init();
 
     const page = await this.browser.newPage();
 
     try {
       // Contoh untuk direktori bisnis Indonesia
-      const searchUrl = `https://www.yellowpages.co.id/search?q=${encodeURIComponent(
-        searchQuery
-      )}&location=${encodeURIComponent(location)}`;
+      const searchUrl = `https://www.yellowpages.com/search?search_terms=${encodeURIComponent(
+    searchQuery
+)}&geo_location_terms=${encodeURIComponent(location)}`;
       console.log(`Searching Yellow Pages: ${searchUrl}`);
 
       await page.goto(searchUrl, { waitUntil: "networkidle2" });
@@ -396,8 +396,8 @@ class BusinessScraper {
     // Remove common prefixes and format
     return phone
       .replace(/\D/g, "") // Remove non-digits
-      .replace(/^62/, "0") // Convert +62 to 0
-      .replace(/^0+/, "0"); // Remove multiple leading zeros
+      .replace(/^(\+?1)/, "") // Strip US country code
+.replace(/\s+/g, "");   // Remove spaces
   }
 
   validateEmail(email) {
